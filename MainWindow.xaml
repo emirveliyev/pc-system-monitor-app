@@ -1,0 +1,168 @@
+﻿<Window x:Class="pc_system_monitor_app.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:pc_system_monitor_app.Controls"
+        Title="Мониторинг Систем" Height="720" Width="1100" Background="#0F0F10" FontFamily="Segoe UI">
+    <Window.Resources>
+        <!-- Кнопки -->
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="Margin" Value="4,0,0,0"/>
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="Background" Value="#1F1F20"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#2D2D2E"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2C2C2F"/>
+                                <Setter Property="BorderBrush" Value="#3A82F7"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#3A82F7"/>
+                                <Setter Property="BorderBrush" Value="#3A82F7"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Текст -->
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <DockPanel Grid.Row="0" Margin="0,0,0,16">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Мониторинг Систем"
+                           FontSize="24"
+                           FontWeight="Bold"/>
+                <TextBlock Text="CPU / RAM / GPU — контроль и статистика"
+                           Opacity="0.7"
+                           FontSize="13"
+                           Foreground="#CCCCCC"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" VerticalAlignment="Center">
+                <TextBlock VerticalAlignment="Center" Opacity="0.7" Foreground="#AAAAAA">Автор:</TextBlock>
+                <TextBlock VerticalAlignment="Center" FontWeight="Bold" Margin="6,0,0,0">
+                    <Hyperlink NavigateUri="https://github.com/emirveliyev"
+                               RequestNavigate="Author_RequestNavigate"
+                               Foreground="#3A82F7">
+                        Emir-Veliyev Rustem
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Основная сетка -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="360"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Левая панель -->
+            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,16,0">
+                <!-- CPU -->
+                <Border Background="#1A1A1B" CornerRadius="12" Padding="12" Margin="0,0,0,12">
+                    <Viewbox Stretch="Uniform" Height="220">
+                        <controls:CircularProgress x:Name="CpuCircle" Tag="CPU"/>
+                    </Viewbox>
+                </Border>
+
+                <!-- RAM -->
+                <Border Background="#1A1A1B" CornerRadius="12" Padding="12" Margin="0,0,0,12">
+                    <Viewbox Stretch="Uniform" Height="160">
+                        <controls:CircularProgress x:Name="RamCircle" Tag="RAM"/>
+                    </Viewbox>
+                </Border>
+
+                <!-- GPU -->
+                <Border Background="#1A1A1B" CornerRadius="12" Padding="12" Margin="0,0,0,12">
+                    <Viewbox Stretch="Uniform" Height="160">
+                        <controls:CircularProgress x:Name="GpuCircle" Tag="GPU"/>
+                    </Viewbox>
+                </Border>
+
+                <!-- Инструкции -->
+                <TextBlock Text="Совет: Перетащите кружок на окно закреплений, чтобы закрепить его на рабочем столе."
+                           FontSize="12"
+                           Opacity="0.7"
+                           TextWrapping="Wrap"
+                           Margin="0,6,0,0"/>
+
+                <!-- Кнопки -->
+                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                    <Button x:Name="BtnTray" Content="Свернуть в трей" Click="BtnTray_Click"/>
+                    <Button x:Name="BtnShowPinned" Content="Окно закреплений" Click="BtnShowPinned_Click"/>
+                </StackPanel>
+
+                <!-- Статус -->
+                <Border Background="#1A1A1B" CornerRadius="10" Padding="10" Margin="0,10,0,0">
+                    <StackPanel>
+                        <TextBlock Text="Краткий статус" FontWeight="Bold" FontSize="14"/>
+                        <TextBlock x:Name="StatusLine" Text="Инициализация..." FontSize="12" Opacity="0.9"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- Правая панель -->
+            <Border Grid.Column="1" Background="#1A1A1B" CornerRadius="12" Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Подробная информация" FontSize="18" FontWeight="Bold" Margin="0,0,0,12"/>
+                    
+                    <TextBlock x:Name="CpuInfoText" Text="Процессор: —" FontSize="15" FontWeight="Bold"/>
+                    <TextBlock x:Name="CpuSpecText" Text="Ядра: —  Потоки: —  Частота: — MHz" FontSize="13" Opacity="0.9" Margin="0,4,0,0"/>
+                    
+                    <Separator Margin="0,10,0,10" Background="#2A2A2B"/>
+
+                    <TextBlock x:Name="RamInfoText" Text="ОЗУ: —" FontSize="15" FontWeight="Bold"/>
+                    <TextBlock x:Name="RamSpecText" Text="Всего: — MB  Свободно: — MB" FontSize="13" Opacity="0.9" Margin="0,4,0,0"/>
+                    
+                    <Separator Margin="0,10,0,10" Background="#2A2A2B"/>
+
+                    <TextBlock x:Name="GpuInfoText" Text="GPU: —" FontSize="15" FontWeight="Bold"/>
+                    <TextBlock x:Name="GpuSpecText" Text="Память: — MB  Драйвер: —" FontSize="13" Opacity="0.9" Margin="0,4,0,0"/>
+                    
+                    <Separator Margin="0,14,0,14" Background="#2A2A2B"/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Средние (последние 30):" FontWeight="Bold"/>
+                        <TextBlock x:Name="AvgText" FontWeight="Bold" Margin="8,0,0,0" Foreground="#3A82F7"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Нижний статус -->
+        <DockPanel Grid.Row="2" Margin="0,12,0,0">
+            <TextBlock x:Name="StatusText"
+                       Text="Инициализация..."
+                       FontSize="12"
+                       Opacity="0.7"/>
+        </DockPanel>
+    </Grid>
+</Window>
