@@ -22,7 +22,8 @@
 
 ## Установка и запуск
 Скачайте готовое приложение:  
-[WINDOWS & Скачать PC System Monitor App](https://drive.google.com/file/d/1lsGwmC9hbUPuS8e_civl-jlfU21iSijf/view?usp=sharing)  
+[WINDOWS & Скачать PC System Monitor App Google Disk](https://drive.google.com/file/d/1lsGwmC9hbUPuS8e_civl-jlfU21iSijf/view?usp=sharing)
+[WINDOWS & Скачать PC System Monitor App Github Release](https://github.com/emirveliyev/pc-system-monitor-app/releases/tag/v1.0.0-beta)
 
 
 После распаковки запустите файл **SystemMonitoringApp.exe**  
